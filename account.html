@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Options</title>
+    <link rel="stylesheet" href="account.css">
+    <link rel="apple-touch-icon" href="logo.png"> <!-- Add your logo here -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Teacher Portal">
+</head>
+<body>
+    <div class="container">
+        <h1>Account Options</h1>
+        <button id="view-log-history">View Log History</button>
+        <button id="logout">Logout</button>
+
+        <div id="log-history" class="hidden">
+            <h2>Log History</h2>
+            <ul id="log-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        // Handle logout
+        document.getElementById('logout').addEventListener('click', () => {
+            localStorage.removeItem('username'); // Clear username from localStorage
+            window.location.href = 'login.html'; // Redirect to login page
+        });
+
+        // Handle viewing log history
+        document.getElementById('view-log-history').addEventListener('click', () => {
+            const logHistory = JSON.parse(localStorage.getItem('logHistory')) || [];
+            const logList = document.getElementById('log-list');
+            logList.innerHTML = ''; // Clear previous log entries
+
+            if (logHistory.length === 0) {
+                logList.innerHTML = '<li>No log history available.</li>';
+            } else {
+                logHistory.forEach(entry => {
+                    const li = document.createElement('li');
+                    li.innerText = `${entry.date}: ${entry.hours} hours submitted`;
+                    logList.appendChild(li);
+                });
+            }
+
+            document.getElementById('log-history').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+body {
+  font-family: 'Kode Mono', monospace;
+  background: linear-gradient(to bottom, #67357bff, #472f7fff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  color: white;
+}
+
+.teacher-container {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 400px;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 10px 5px;
+  border-radius: 5px;
+  border: none;
+  background-color: #d56bffff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #8f5fffff;
+}
+
+.hidden {
+  display: none;
+}
+
+.student-management {
+  margin-top: 20px;
+}
+
+#student-history {
+  margin-top: 20px;
+  text-align: left;
+}
+
+#history-list {
+  list-style: none;
+  padding: 0;
+}
+
+#history-list li {
+  margin: 5px 0;
+}

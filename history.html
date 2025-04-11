@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>History</title>
+    <link rel="stylesheet" href="history.css">
+    <link rel="apple-touch-icon" href="logo.png"> <!-- Add your logo here -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Teacher Portal">
+</head>
+<body>
+    <div class="container">
+        <div id="welcome">Welcome back,</div>
+        <div id="name"></div> <!-- Username will be dynamically inserted here -->
+
+        <button id="account-options">Account Options</button>
+
+        <div id="hour-submission">
+            <h3>Submit Hours</h3>
+            <input type="number" id="custom-hours" placeholder="Enter hours">
+            <button id="submit-hours-btn">Submit</button>
+            <p id="submission-message" class="hidden"></p>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve the username from localStorage and display it
+        const username = localStorage.getItem('username');
+        if (username) {
+            document.getElementById('name').innerText = username;
+        } else {
+            // Redirect to login page if no username is found
+            window.location.href = 'login.html';
+        }
+
+        // Redirect to account options page when the button is clicked
+        document.getElementById('account-options').addEventListener('click', () => {
+            window.location.href = 'account.html';
+        });
+    </script>
+    <script src="history.js"></script>
+</body>
+</html>

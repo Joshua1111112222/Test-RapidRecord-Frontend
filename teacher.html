@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Portal</title>
+    <link rel="stylesheet" href="teacher.css">
+    <link rel="apple-touch-icon" href="logo.png"> <!-- Add your logo here -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Teacher Portal">
+</head>
+<body>
+    <div class="teacher-container">
+        <h1>Welcome, Teacher</h1>
+        <button onclick="logout()">Logout</button>
+        <div class="teacher-content">
+            <h2>Manage Students</h2>
+            <div class="student-management">
+                <input type="text" id="student-username" placeholder="Enter student username">
+                <button id="view-history-btn">See History</button>
+                <button id="add-hours-btn">Add Hours</button>
+                <button id="remove-hours-btn">Remove Hours</button>
+            </div>
+            <div id="student-history" class="hidden">
+                <h3>Student Log History</h3>
+                <ul id="history-list"></ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        const BACKEND_URL = 'https://your-backend-url.onrender.com'; // Replace with your backend URL
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('username'); // Clear username from localStorage
+            window.location.href = 'login.html'; // Redirect to login page
+        }
+
+        // Fetch and display student log history
+        document.getElementById('view-history-btn').addEventListener('click', () => {
+            const studentUsername = document.getElementById('student-username').value.trim();
+            if (!studentUsername) {
+                alert('Please enter a student username.');
+                return;
+            }
+
+            fetch(`${BACKEND_URL}/get-student-history`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: studentUsername })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const historyList = document.getElementById('history-list');
+                    historyList.innerHTML = ''; // Clear previous history
+                    if (data.history.length === 0) {
+                        historyList.innerHTML = '<li>No history available for this student.</li>';
+                    } else {
+                        data.history.forEach(entry => {
+                            const li = document.createElement('li');
+                            li.innerText = `${entry.date}: ${entry.hours} hours`;
+                            historyList.appendChild(li);
+                        });
+                    }
+                    document.getElementById('student-history').classList.remove('hidden');
+                } else {
+                    alert(data.message || 'Failed to fetch student history.');
+                }
+            })
+            .catch(error => {
+                alert('Error fetching student history.');
+            });
+        });
+
+        // Add hours to a student
+        document.getElementById('add-hours-btn').addEventListener('click', () => {
+            const studentUsername = document.getElementById('student-username').value.trim();
+            const hours = prompt('Enter hours to add:');
+            if (!studentUsername || isNaN(hours) || hours <= 0) {
+                alert('Please enter a valid username and hours.');
+                return;
+            }
+
+            fetch(`${BACKEND_URL}/add-student-hours`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: studentUsername, hours: parseInt(hours) })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Hours added successfully!');
+                } else {
+                    alert(data.message || 'Failed to add hours.');
+                }
+            })
+            .catch(error => {
+                alert('Error adding hours.');
+            });
+        });
+
+        // Remove hours from a student
+        document.getElementById('remove-hours-btn').addEventListener('click', () => {
+            const studentUsername = document.getElementById('student-username').value.trim();
+            const hours = prompt('Enter hours to remove:');
+            if (!studentUsername || isNaN(hours) || hours <= 0) {
+                alert('Please enter a valid username and hours.');
+                return;
+            }
+
+            fetch(`${BACKEND_URL}/remove-student-hours`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: studentUsername, hours: parseInt(hours) })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Hours removed successfully!');
+                } else {
+                    alert(data.message || 'Failed to remove hours.');
+                }
+            })
+            .catch(error => {
+                alert('Error removing hours.');
+            });
+        });
+    </script>
+</body>
+</html>

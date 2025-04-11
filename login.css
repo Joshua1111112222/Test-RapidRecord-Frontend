@@ -1,0 +1,41 @@
+body {
+    font-family: 'Kode Mono', monospace;
+    background: linear-gradient(to bottom, #67357bff, #472f7fff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+}
+
+input {
+    width: 250px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #d56bffff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #8f5fffff;
+}
